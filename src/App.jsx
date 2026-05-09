@@ -1,161 +1,113 @@
-import { useState } from "react";
-
 export default function App() {
-  const [chatOpen, setChatOpen] = useState(false);
-  const [messages, setMessages] = useState([
-    { role: "ai", text: "Welcome to MILAN Lounge. How can I assist you today?" }
-  ]);
-
-  const [form, setForm] = useState({ name: "", time: "", guests: "" });
-  const [bookings, setBookings] = useState([]);
-
-  const [admin, setAdmin] = useState(false);
-  const [pass, setPass] = useState("");
-
-  const sendMessage = (msg) => {
-    const userMsg = { role: "user", text: msg };
-    let reply = "I can help with reservations, menu, and VIP tables.";
-
-    if (msg.toLowerCase().includes("book")) {
-      reply = "To book a table, go to reservation section.";
-    } else if (msg.toLowerCase().includes("menu")) {
-      reply = "We offer premium cocktails, champagne & gourmet meals.";
-    } else if (msg.toLowerCase().includes("price")) {
-      reply = "Drinks start from GH₵60 to GH₵450.";
+  const drinks = [
+    {
+      name: "Golden Royal Cocktail",
+      price: "GH₵120",
+      img: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b"
+    },
+    {
+      name: "Blue Lagoon Elite",
+      price: "GH₵90",
+      img: "https://images.unsplash.com/photo-1470337458703-46ad1756a187"
+    },
+    {
+      name: "Champagne Luxe",
+      price: "GH₵450",
+      img: "https://images.unsplash.com/photo-1560512823-829485b8bf24"
     }
+  ];
 
-    setMessages([...messages, userMsg, { role: "ai", text: reply }]);
-  };
-
-  const reserve = () => {
-    const newBooking = {
-      ...form,
-      id: Date.now()
-    };
-    setBookings([...bookings, newBooking]);
-    setForm({ name: "", time: "", guests: "" });
-  };
-
-  /* ================= ADMIN LOGIN ================= */
-  if (admin === "login") {
-    return (
-      <div style={styles.login}>
-        <h1>MILAN ADMIN</h1>
-        <input
-          placeholder="Password"
-          value={pass}
-          onChange={(e) => setPass(e.target.value)}
-        />
-        <button onClick={() => setAdmin(pass === "MILAN2026" ? "panel" : "login")}>
-          Enter
-        </button>
-      </div>
-    );
-  }
-
-  /* ================= ADMIN PANEL ================= */
-  if (admin === "panel") {
-    return (
-      <div style={styles.admin}>
-        <h1>📊 LIVE DASHBOARD</h1>
-
-        <div style={styles.grid}>
-          <div style={styles.card}>Bookings: {bookings.length}</div>
-          <div style={styles.card}>Revenue: GH₵24,500</div>
-          <div style={styles.card}>VIP Tables: 18 Active</div>
-        </div>
-
-        <h2>Reservations</h2>
-        {bookings.map((b) => (
-          <div key={b.id} style={styles.booking}>
-            {b.name} • {b.time} • {b.guests} guests
-          </div>
-        ))}
-      </div>
-    );
-  }
+  const foods = [
+    {
+      name: "Grilled Chicken Platter",
+      price: "GH₵80",
+      img: "https://images.unsplash.com/photo-1604908176997-125f25cc500f"
+    },
+    {
+      name: "Beef Burger Deluxe",
+      price: "GH₵60",
+      img: "https://images.unsplash.com/photo-1550547660-d9450f859349"
+    },
+    {
+      name: "Luxury Fried Rice Bowl",
+      price: "GH₵70",
+      img: "https://images.unsplash.com/photo-1603133872878-684f208fb84b"
+    }
+  ];
 
   return (
     <div style={styles.body}>
 
       {/* NAV */}
       <nav style={styles.nav}>
-        <div style={styles.logo}>MILAN ✦ LUXURY</div>
+        <div style={styles.logo}>MILAN</div>
 
-        <div>
-          <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>Home</button>
-          <button onClick={() => document.getElementById("menu").scrollIntoView()}>Menu</button>
-          <button onClick={() => document.getElementById("reserve").scrollIntoView()}>Reserve</button>
-          <button onClick={() => setAdmin("login")}>Admin</button>
+        <div style={styles.links}>
+          <a href="#home">Home</a>
+          <a href="#drinks">Drinks</a>
+          <a href="#food">Food</a>
+          <a href="#contact">Contact</a>
         </div>
       </nav>
 
       {/* HERO */}
-      <section style={styles.hero}>
-        <h1 style={styles.title}>MILAN 5★ LUXURY LOUNGE</h1>
-        <p>Kumasi - Anloga • Premium Nightlife Experience</p>
+      <section id="home" style={styles.hero}>
+        <div style={styles.glass}>
+          <h1 style={styles.title}>MILAN LOUNGE & BAR</h1>
+          <p style={styles.subtitle}>
+            Kumasi - Anloga • Premium Nightlife Experience
+          </p>
+
+          <button
+            style={styles.btn}
+            onClick={() => window.open("https://wa.me/233540896361")}
+          >
+            Book on WhatsApp
+          </button>
+        </div>
       </section>
 
-      {/* MENU */}
-      <section id="menu" style={styles.section}>
-        <h2>Luxury Experience Menu</h2>
-        <p>Signature cocktails, gourmet food, VIP service</p>
+      {/* DRINKS */}
+      <section id="drinks" style={styles.section}>
+        <h2 style={styles.h2}>🍹 Signature Drinks</h2>
+
+        <div style={styles.grid}>
+          {drinks.map((d, i) => (
+            <div key={i} style={styles.card}>
+              <img src={d.img} style={styles.img} />
+              <h3>{d.name}</h3>
+              <p style={styles.price}>{d.price}</p>
+            </div>
+          ))}
+        </div>
       </section>
 
-      {/* RESERVATION SYSTEM */}
-      <section id="reserve" style={styles.sectionDark}>
-        <h2>Auto Reservation System</h2>
+      {/* FOOD */}
+      <section id="food" style={styles.sectionDark}>
+        <h2 style={styles.h2}>🍽️ Luxury Food Menu</h2>
 
-        <input placeholder="Name"
-          value={form.name}
-          onChange={(e) => setForm({ ...form, name: e.target.value })}
-        />
-        <input placeholder="Time"
-          value={form.time}
-          onChange={(e) => setForm({ ...form, time: e.target.value })}
-        />
-        <input placeholder="Guests"
-          value={form.guests}
-          onChange={(e) => setForm({ ...form, guests: e.target.value })}
-        />
-
-        <button onClick={reserve} style={styles.btn}>Reserve Table</button>
+        <div style={styles.grid}>
+          {foods.map((f, i) => (
+            <div key={i} style={styles.card}>
+              <img src={f.img} style={styles.img} />
+              <h3>{f.name}</h3>
+              <p style={styles.price}>{f.price}</p>
+            </div>
+          ))}
+        </div>
       </section>
 
-      {/* BOOKINGS PREVIEW */}
-      <section style={styles.section}>
-        <h2>Live Reservations</h2>
-        {bookings.map((b) => (
-          <div key={b.id} style={styles.booking}>
-            {b.name} • {b.time} • {b.guests} guests
-          </div>
-        ))}
+      {/* CONTACT */}
+      <section id="contact" style={styles.contact}>
+        <h2>Contact MILAN</h2>
+        <p>📍 Kumasi - Anloga</p>
+        <p>📞 054 089 6361</p>
       </section>
 
-      {/* AI CHATBOT */}
-      <div style={styles.chatBox}>
-        <button onClick={() => setChatOpen(!chatOpen)} style={styles.chatBtn}>
-          AI Reception
-        </button>
-
-        {chatOpen && (
-          <div style={styles.chatWindow}>
-            {messages.map((m, i) => (
-              <p key={i} style={{ color: m.role === "ai" ? "gold" : "white" }}>
-                {m.text}
-              </p>
-            ))}
-
-            <input
-              placeholder="Ask MILAN AI..."
-              onKeyDown={(e) => {
-                if (e.key === "Enter") sendMessage(e.target.value);
-                e.target.value = "";
-              }}
-            />
-          </div>
-        )}
-      </div>
+      {/* FOOTER */}
+      <footer style={styles.footer}>
+        © 2026 MILAN LOUNGE & BAR
+      </footer>
 
     </div>
   );
@@ -167,93 +119,125 @@ const styles = {
   body: {
     margin: 0,
     fontFamily: "Arial",
-    background: "radial-gradient(circle,#111,#000)",
+    background: "radial-gradient(circle at top,#1a1a2e,#000)",
     color: "white"
   },
 
+  /* NAV */
   nav: {
     display: "flex",
     justifyContent: "space-between",
     padding: 15,
+    position: "sticky",
+    top: 0,
     background: "rgba(0,0,0,0.6)",
     backdropFilter: "blur(10px)"
   },
 
   logo: {
+    fontSize: 24,
+    fontWeight: "bold",
     color: "gold",
-    fontWeight: "bold"
+    textShadow: "0 0 10px gold"
   },
 
+  links: {
+    display: "flex",
+    gap: 15
+  },
+
+  /* HERO */
   hero: {
-    textAlign: "center",
-    padding: 80
+    height: "90vh",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center"
+  },
+
+  glass: {
+    padding: 40,
+    background: "rgba(255,255,255,0.05)",
+    borderRadius: 20,
+    backdropFilter: "blur(15px)",
+    boxShadow: "0 0 40px rgba(255,215,0,0.2)"
   },
 
   title: {
-    fontSize: 40,
-    color: "gold"
+    fontSize: 45,
+    color: "gold",
+    textShadow: "0 0 20px gold"
   },
 
+  subtitle: {
+    color: "#aaa"
+  },
+
+  btn: {
+    marginTop: 20,
+    padding: "12px 25px",
+    background: "linear-gradient(45deg,gold,orange)",
+    border: "none",
+    borderRadius: 10,
+    cursor: "pointer",
+    fontWeight: "bold"
+  },
+
+  /* SECTIONS */
   section: {
-    padding: 40,
+    padding: 60,
     textAlign: "center"
   },
 
   sectionDark: {
-    padding: 40,
-    background: "#0a0a0a",
-    textAlign: "center"
+    padding: 60,
+    textAlign: "center",
+    background: "#0a0a0a"
   },
 
-  btn: {
-    padding: 10,
-    background: "gold",
-    border: "none",
-    marginTop: 10
+  h2: {
+    color: "gold",
+    marginBottom: 20
   },
 
+  /* GRID */
   grid: {
     display: "grid",
-    gridTemplateColumns: "repeat(auto-fit,minmax(150px,1fr))",
-    gap: 10
+    gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))",
+    gap: 20
   },
 
+  /* CARD */
   card: {
-    background: "#111",
-    padding: 10
+    background: "rgba(255,255,255,0.05)",
+    padding: 15,
+    borderRadius: 15,
+    boxShadow: "0 0 20px rgba(0,0,0,0.5)"
   },
 
-  booking: {
-    background: "#111",
-    margin: 5,
-    padding: 10
+  img: {
+    width: "100%",
+    height: 140,
+    objectFit: "cover",
+    borderRadius: 10
   },
 
-  login: {
+  price: {
+    color: "gold"
+  },
+
+  /* CONTACT */
+  contact: {
+    padding: 50,
     textAlign: "center",
-    padding: 50
+    background: "black"
   },
 
-  admin: {
-    padding: 20
-  },
-
-  chatBox: {
-    position: "fixed",
-    bottom: 20,
-    right: 20
-  },
-
-  chatBtn: {
-    background: "gold",
-    border: "none",
-    padding: 10
-  },
-
-  chatWindow: {
-    background: "#111",
-    padding: 10,
-    width: 250,
-    marginTop: 10
+  /* FOOTER */
+  footer: {
+    textAlign: "center",
+    padding: 20,
+    background: "#000",
+    borderTop: "1px solid #222"
   }
 };

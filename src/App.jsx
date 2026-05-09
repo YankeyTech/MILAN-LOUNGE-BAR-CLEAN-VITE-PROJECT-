@@ -2,68 +2,17 @@ import { useState } from "react";
 
 export default function App() {
   const [page, setPage] = useState("home");
-  const [admin, setAdmin] = useState(false);
-  const [pass, setPass] = useState("");
 
   const drinks = [
-    {
-      name: "VIP Golden Cocktail",
-      price: "GH₵120",
-      img: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b"
-    },
-    {
-      name: "Blue Lagoon Special",
-      price: "GH₵90",
-      img: "https://images.unsplash.com/photo-1470337458703-46ad1756a187"
-    },
-    {
-      name: "Royal Champagne",
-      price: "GH₵450",
-      img: "https://images.unsplash.com/photo-1560512823-829485b8bf24"
-    }
+    { name: "VIP Golden Cocktail", price: "GH₵120" },
+    { name: "Blue Lagoon Special", price: "GH₵90" },
+    { name: "Royal Champagne", price: "GH₵450" },
+    { name: "Milan Signature Shot", price: "GH₵60" }
   ];
 
-  // ADMIN LOGIN
-  if (page === "admin" && !admin) {
-    return (
-      <div style={styles.center}>
-        <h1>🔐 MILAN ADMIN LOGIN</h1>
-
-        <input
-          placeholder="Enter Password"
-          value={pass}
-          onChange={(e) => setPass(e.target.value)}
-          style={styles.input}
-        />
-
-        <button
-          onClick={() => setAdmin(pass === "MILAN2026")}
-          style={styles.goldBtn}
-        >
-          Login
-        </button>
-      </div>
-    );
-  }
-
-  // ADMIN DASHBOARD
-  if (page === "admin" && admin) {
-    return (
-      <div style={styles.page}>
-        <h1>📊 MILAN PRO ADMIN DASHBOARD</h1>
-
-        <div style={styles.grid}>
-          <div style={styles.card}>Orders: 184</div>
-          <div style={styles.card}>Reservations: 52</div>
-          <div style={styles.card}>Revenue: GH₵18,900</div>
-        </div>
-
-        <button onClick={() => setPage("home")} style={styles.redBtn}>
-          Logout
-        </button>
-      </div>
-    );
-  }
+  const scrollTo = (id) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
     <div style={styles.body}>
@@ -73,56 +22,83 @@ export default function App() {
         <div style={styles.logo}>MILAN</div>
 
         <div style={styles.navLinks}>
-          <button onClick={() => setPage("home")}>Home</button>
-          <button onClick={() => document.getElementById("menu").scrollIntoView()}>
-            Menu
+          <button onClick={() => scrollTo("home")} style={styles.link}>Home</button>
+          <button onClick={() => scrollTo("menu")} style={styles.link}>Menu</button>
+          <button onClick={() => scrollTo("drinks")} style={styles.link}>Drinks</button>
+          <button onClick={() => window.open("https://wa.me/233540896361")} style={styles.book}>
+            Book
           </button>
-          <button onClick={() => document.getElementById("drinks").scrollIntoView()}>
-            Drinks
-          </button>
-          <button onClick={() => setPage("admin")}>Admin</button>
         </div>
       </nav>
 
       {/* HERO */}
-      <header style={styles.hero}>
+      <section id="home" style={styles.hero}>
         <h1 style={styles.title}>MILAN LOUNGE & BAR</h1>
-        <p>Kumasi - Anloga | 054 089 6361</p>
+        <p style={styles.subtitle}>
+          Kumasi - Anloga • Luxury Nightlife Experience
+        </p>
 
         <button
-          style={styles.greenBtn}
-          onClick={() => window.open("https://wa.me/233540896361")}
+          onClick={() => scrollTo("drinks")}
+          style={styles.cta}
         >
-          Book on WhatsApp
+          Explore Menu ↓
         </button>
-      </header>
+      </section>
 
       {/* MENU SECTION */}
       <section id="menu" style={styles.section}>
-        <h2>🔥 Premium Lounge Experience</h2>
-        <p>Luxury drinks, vibes & nightlife experience</p>
+        <h2 style={styles.h2}>🔥 Premium Experience</h2>
+        <p style={styles.text}>
+          Milan Lounge delivers a high-class nightlife experience with premium drinks,
+          luxury vibes, music, and unforgettable moments.
+        </p>
+
+        <div style={styles.features}>
+          <div style={styles.featureCard}>🍾 VIP Bottle Service</div>
+          <div style={styles.featureCard}>🎶 Live DJ Nights</div>
+          <div style={styles.featureCard}>💃 Lounge Experience</div>
+          <div style={styles.featureCard}>🥂 Premium Cocktails</div>
+        </div>
       </section>
 
       {/* DRINKS */}
       <section id="drinks" style={styles.section}>
-        <h2>🍹 Drinks Menu</h2>
+        <h2 style={styles.h2}>🍹 Drinks Menu</h2>
 
         <div style={styles.grid}>
           {drinks.map((d, i) => (
             <div key={i} style={styles.card}>
-              <img src={d.img} style={styles.img} />
               <h3>{d.name}</h3>
-              <p style={{ color: "gold" }}>{d.price}</p>
+              <p style={styles.price}>{d.price}</p>
+
+              <button
+                onClick={() => window.open("https://wa.me/233540896361")}
+                style={styles.order}
+              >
+                Order Now
+              </button>
             </div>
           ))}
         </div>
+      </section>
+
+      {/* CALL TO ACTION */}
+      <section style={styles.ctaSection}>
+        <h2>Ready for a Premium Night?</h2>
+        <button
+          onClick={() => window.open("https://wa.me/233540896361")}
+          style={styles.bigBtn}
+        >
+          Book VIP Table
+        </button>
       </section>
 
       {/* FOOTER */}
       <footer style={styles.footer}>
         <h3>MILAN LOUNGE & BAR</h3>
         <p>Kumasi - Anloga | 054 089 6361</p>
-        <p>© 2026 MILAN ENTERPRISE. All Rights Reserved.</p>
+        <p>© 2026 MILAN ENTERPRISE</p>
       </footer>
 
     </div>
@@ -134,118 +110,142 @@ export default function App() {
 const styles = {
   body: {
     margin: 0,
-    background: "linear-gradient(#0a0a0a, #000)",
-    color: "white",
-    fontFamily: "Arial"
+    fontFamily: "Arial",
+    background: "radial-gradient(circle,#111,#000)",
+    color: "white"
   },
 
   /* NAV */
   nav: {
     position: "sticky",
     top: 0,
-    background: "#111",
+    background: "#0d0d0d",
     display: "flex",
     justifyContent: "space-between",
     padding: "15px 20px",
-    alignItems: "center",
-    borderBottom: "1px solid #333"
+    borderBottom: "1px solid #222",
+    zIndex: 999
   },
   logo: {
-    fontSize: "24px",
-    fontWeight: "bold",
-    color: "gold"
+    color: "gold",
+    fontSize: 22,
+    fontWeight: "bold"
   },
   navLinks: {
     display: "flex",
     gap: 10
   },
+  link: {
+    background: "transparent",
+    border: "none",
+    color: "white",
+    cursor: "pointer"
+  },
+  book: {
+    background: "gold",
+    border: "none",
+    padding: "6px 10px",
+    borderRadius: 6,
+    cursor: "pointer"
+  },
 
   /* HERO */
   hero: {
     textAlign: "center",
-    padding: "80px 20px"
+    padding: "90px 20px"
   },
   title: {
-    fontSize: "40px",
+    fontSize: 45,
     color: "gold",
     textShadow: "0 0 20px rgba(255,215,0,0.4)"
   },
-
-  /* BUTTONS */
-  greenBtn: {
+  subtitle: {
+    color: "#aaa",
+    marginTop: 10
+  },
+  cta: {
     marginTop: 20,
-    padding: "12px 20px",
+    padding: "10px 20px",
     background: "green",
-    color: "white",
     border: "none",
+    color: "white",
     borderRadius: 8
-  },
-  goldBtn: {
-    padding: 10,
-    background: "gold",
-    border: "none"
-  },
-  redBtn: {
-    marginTop: 20,
-    padding: 10,
-    background: "red",
-    color: "white"
   },
 
   /* SECTIONS */
   section: {
-    padding: "50px 20px",
+    padding: "60px 20px",
     textAlign: "center"
   },
+  h2: {
+    color: "gold"
+  },
+  text: {
+    maxWidth: 600,
+    margin: "10px auto",
+    color: "#ccc"
+  },
 
-  /* GRID */
+  /* FEATURES */
+  features: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit,minmax(150px,1fr))",
+    gap: 15,
+    marginTop: 30
+  },
+  featureCard: {
+    background: "#111",
+    padding: 15,
+    borderRadius: 10,
+    border: "1px solid #222"
+  },
+
+  /* DRINKS */
   grid: {
     display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+    gridTemplateColumns: "repeat(auto-fit,minmax(180px,1fr))",
     gap: 20,
     marginTop: 20
   },
-
-  /* CARDS */
   card: {
     background: "#111",
-    padding: 15,
+    padding: 20,
     borderRadius: 12,
-    border: "1px solid #333"
+    border: "1px solid #222"
   },
-  img: {
-    width: "100%",
-    height: 120,
-    objectFit: "cover",
-    borderRadius: 10
+  price: {
+    color: "gold"
+  },
+  order: {
+    marginTop: 10,
+    padding: "8px 12px",
+    background: "gold",
+    border: "none",
+    borderRadius: 6,
+    cursor: "pointer"
+  },
+
+  /* CTA */
+  ctaSection: {
+    textAlign: "center",
+    padding: 60,
+    background: "#0a0a0a"
+  },
+  bigBtn: {
+    marginTop: 20,
+    padding: "12px 25px",
+    background: "green",
+    border: "none",
+    color: "white",
+    borderRadius: 10,
+    cursor: "pointer"
   },
 
   /* FOOTER */
   footer: {
-    marginTop: 50,
-    padding: 30,
     textAlign: "center",
-    background: "#0a0a0a",
-    borderTop: "1px solid #222"
-  },
-
-  /* ADMIN */
-  page: {
     padding: 30,
     background: "#000",
-    minHeight: "100vh"
-  },
-  center: {
-    height: "100vh",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    background: "#000",
-    color: "white"
-  },
-  input: {
-    padding: 10,
-    marginTop: 20
+    borderTop: "1px solid #222"
   }
 };

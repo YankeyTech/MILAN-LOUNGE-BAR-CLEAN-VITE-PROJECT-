@@ -26,11 +26,11 @@ export default function App() {
   // ADMIN LOGIN
   if (page === "admin" && !admin) {
     return (
-      <div style={styles.login}>
-        <h1>ENTER MILAN ADMIN</h1>
+      <div style={styles.center}>
+        <h1>🔐 MILAN ADMIN LOGIN</h1>
 
         <input
-          placeholder="Password"
+          placeholder="Enter Password"
           value={pass}
           onChange={(e) => setPass(e.target.value)}
           style={styles.input}
@@ -38,7 +38,7 @@ export default function App() {
 
         <button
           onClick={() => setAdmin(pass === "MILAN2026")}
-          style={styles.btn}
+          style={styles.goldBtn}
         >
           Login
         </button>
@@ -49,112 +49,168 @@ export default function App() {
   // ADMIN DASHBOARD
   if (page === "admin" && admin) {
     return (
-      <div style={styles.admin}>
-        <h1>📊 MILAN ENTERPRISE DASHBOARD</h1>
+      <div style={styles.page}>
+        <h1>📊 MILAN PRO ADMIN DASHBOARD</h1>
 
         <div style={styles.grid}>
-          <div style={styles.card}>🔥 Orders: 142</div>
-          <div style={styles.card}>🍾 Reservations: 38</div>
-          <div style={styles.card}>💰 Revenue: GH₵12,450</div>
+          <div style={styles.card}>Orders: 184</div>
+          <div style={styles.card}>Reservations: 52</div>
+          <div style={styles.card}>Revenue: GH₵18,900</div>
         </div>
 
-        <h2 style={{ marginTop: 30 }}>Drink Inventory</h2>
-
-        {drinks.map((d, i) => (
-          <div key={i} style={styles.item}>
-            {d.name} — {d.price}
-          </div>
-        ))}
-
-        <button onClick={() => setPage("home")} style={styles.btn}>
-          Exit Admin
+        <button onClick={() => setPage("home")} style={styles.redBtn}>
+          Logout
         </button>
       </div>
     );
   }
 
-  // MAIN WEBSITE
   return (
     <div style={styles.body}>
 
-      {/* 3D LOGO */}
-      <div style={styles.logoContainer}>
-        <div style={styles.logo3d}>MILAN</div>
-        <p style={{ color: "#aaa" }}>Lounge & Bar • Kumasi - Anloga</p>
-      </div>
+      {/* NAVBAR */}
+      <nav style={styles.nav}>
+        <div style={styles.logo}>MILAN</div>
+
+        <div style={styles.navLinks}>
+          <button onClick={() => setPage("home")}>Home</button>
+          <button onClick={() => document.getElementById("menu").scrollIntoView()}>
+            Menu
+          </button>
+          <button onClick={() => document.getElementById("drinks").scrollIntoView()}>
+            Drinks
+          </button>
+          <button onClick={() => setPage("admin")}>Admin</button>
+        </div>
+      </nav>
 
       {/* HERO */}
-      <h1 style={styles.title}>Luxury Lounge Experience</h1>
+      <header style={styles.hero}>
+        <h1 style={styles.title}>MILAN LOUNGE & BAR</h1>
+        <p>Kumasi - Anloga | 054 089 6361</p>
 
-      <button
-        style={styles.greenBtn}
-        onClick={() => window.open("https://wa.me/233540896361")}
-      >
-        Book on WhatsApp
-      </button>
+        <button
+          style={styles.greenBtn}
+          onClick={() => window.open("https://wa.me/233540896361")}
+        >
+          Book on WhatsApp
+        </button>
+      </header>
+
+      {/* MENU SECTION */}
+      <section id="menu" style={styles.section}>
+        <h2>🔥 Premium Lounge Experience</h2>
+        <p>Luxury drinks, vibes & nightlife experience</p>
+      </section>
 
       {/* DRINKS */}
-      <div style={styles.grid}>
-        {drinks.map((d, i) => (
-          <div key={i} style={styles.drinkCard}>
-            <img src={d.img} style={styles.img} />
-            <h3>{d.name}</h3>
-            <p style={{ color: "gold" }}>{d.price}</p>
-          </div>
-        ))}
-      </div>
+      <section id="drinks" style={styles.section}>
+        <h2>🍹 Drinks Menu</h2>
 
-      {/* ADMIN BUTTON */}
-      <button onClick={() => setPage("admin")} style={styles.adminBtn}>
-        Admin Panel
-      </button>
+        <div style={styles.grid}>
+          {drinks.map((d, i) => (
+            <div key={i} style={styles.card}>
+              <img src={d.img} style={styles.img} />
+              <h3>{d.name}</h3>
+              <p style={{ color: "gold" }}>{d.price}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer style={styles.footer}>
+        <h3>MILAN LOUNGE & BAR</h3>
+        <p>Kumasi - Anloga | 054 089 6361</p>
+        <p>© 2026 MILAN ENTERPRISE. All Rights Reserved.</p>
+      </footer>
 
     </div>
   );
 }
 
-// 🔥 STYLES (ENTERPRISE LOOK)
+/* ================= STYLES ================= */
+
 const styles = {
   body: {
-    background: "radial-gradient(circle,#111,#000)",
+    margin: 0,
+    background: "linear-gradient(#0a0a0a, #000)",
     color: "white",
-    minHeight: "100vh",
+    fontFamily: "Arial"
+  },
+
+  /* NAV */
+  nav: {
+    position: "sticky",
+    top: 0,
+    background: "#111",
+    display: "flex",
+    justifyContent: "space-between",
+    padding: "15px 20px",
+    alignItems: "center",
+    borderBottom: "1px solid #333"
+  },
+  logo: {
+    fontSize: "24px",
+    fontWeight: "bold",
+    color: "gold"
+  },
+  navLinks: {
+    display: "flex",
+    gap: 10
+  },
+
+  /* HERO */
+  hero: {
     textAlign: "center",
-    padding: 20
-  },
-  logoContainer: {
-    marginTop: 30,
-    marginBottom: 20
-  },
-  logo3d: {
-    fontSize: "60px",
-    fontWeight: "900",
-    color: "gold",
-    textShadow: "0 5px 20px rgba(255,215,0,0.6)"
+    padding: "80px 20px"
   },
   title: {
-    fontSize: "28px",
-    marginTop: 20
+    fontSize: "40px",
+    color: "gold",
+    textShadow: "0 0 20px rgba(255,215,0,0.4)"
   },
+
+  /* BUTTONS */
   greenBtn: {
+    marginTop: 20,
     padding: "12px 20px",
     background: "green",
     color: "white",
     border: "none",
-    borderRadius: 10,
-    marginTop: 20,
-    cursor: "pointer"
+    borderRadius: 8
   },
+  goldBtn: {
+    padding: 10,
+    background: "gold",
+    border: "none"
+  },
+  redBtn: {
+    marginTop: 20,
+    padding: 10,
+    background: "red",
+    color: "white"
+  },
+
+  /* SECTIONS */
+  section: {
+    padding: "50px 20px",
+    textAlign: "center"
+  },
+
+  /* GRID */
   grid: {
     display: "grid",
     gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
     gap: 20,
-    marginTop: 30
+    marginTop: 20
   },
-  drinkCard: {
+
+  /* CARDS */
+  card: {
     background: "#111",
     padding: 15,
-    borderRadius: 15,
+    borderRadius: 12,
     border: "1px solid #333"
   },
   img: {
@@ -163,57 +219,33 @@ const styles = {
     objectFit: "cover",
     borderRadius: 10
   },
-  adminBtn: {
-    marginTop: 40,
-    padding: 10,
-    background: "gold",
-    border: "none",
-    borderRadius: 8
-  },
 
-  // ADMIN
-  admin: {
+  /* FOOTER */
+  footer: {
+    marginTop: 50,
     padding: 30,
+    textAlign: "center",
     background: "#0a0a0a",
-    minHeight: "100vh",
-    color: "white"
-  },
-  grid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
-    gap: 15
-  },
-  card: {
-    background: "#111",
-    padding: 20,
-    borderRadius: 12,
-    border: "1px solid #333"
-  },
-  item: {
-    background: "#111",
-    margin: 10,
-    padding: 10,
-    borderRadius: 8
+    borderTop: "1px solid #222"
   },
 
-  // LOGIN
-  login: {
+  /* ADMIN */
+  page: {
+    padding: 30,
     background: "#000",
-    color: "white",
+    minHeight: "100vh"
+  },
+  center: {
     height: "100vh",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    background: "#000",
+    color: "white"
   },
   input: {
     padding: 10,
     marginTop: 20
-  },
-  btn: {
-    marginTop: 10,
-    padding: 10,
-    background: "gold",
-    border: "none"
   }
 };

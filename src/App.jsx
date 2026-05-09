@@ -1,86 +1,105 @@
+import { useState } from "react";
+
 export default function App() {
-  return (
-    <div style={{ fontFamily: "Arial", background: "#0a0a0a", color: "white" }}>
+  const [page, setPage] = useState("home");
+  const [password, setPassword] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
 
-      {/* HERO */}
-      <section style={{ padding: "80px 20px", textAlign: "center" }}>
-        <h1 style={{ fontSize: "50px", color: "#f5c542" }}>
-          MILAN LOUNGE & BAR
-        </h1>
+  const drinks = [
+    { name: "VIP Cocktail", price: "GH₵120" },
+    { name: "Blue Lagoon", price: "GH₵90" },
+    { name: "Champagne Gold", price: "GH₵450" }
+  ];
 
-        <p style={{ fontSize: "18px", color: "#ccc" }}>
-          Kumasi - Anloga | Tel: 054 089 6361
-        </p>
+  // ADMIN LOGIN
+  if (page === "admin" && !isAdmin) {
+    return (
+      <div style={{ padding: 40, textAlign: "center", background: "#000", color: "#fff", height: "100vh" }}>
+        <h1>Admin Login</h1>
+
+        <input
+          placeholder="Enter Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          style={{ padding: 10, marginTop: 20 }}
+        />
+
+        <br /><br />
 
         <button
-          onClick={() => window.open("https://wa.me/233540896361")}
-          style={{
-            marginTop: "20px",
-            padding: "12px 25px",
-            background: "green",
-            border: "none",
-            color: "white",
-            borderRadius: "8px",
-            cursor: "pointer"
+          onClick={() => {
+            if (password === "MILAN2026") {
+              setIsAdmin(true);
+            } else {
+              alert("Wrong Password");
+            }
           }}
+          style={{ padding: 10, background: "gold", border: "none" }}
         >
-          Book on WhatsApp
+          Login
         </button>
-      </section>
+      </div>
+    );
+  }
 
-      {/* DRINKS */}
-      <section style={{ padding: "40px 20px" }}>
-        <h2 style={{ color: "#f5c542", textAlign: "center" }}>
-          Drinks Menu (Cedis)
-        </h2>
+  // ADMIN DASHBOARD
+  if (page === "admin" && isAdmin) {
+    return (
+      <div style={{ padding: 30, background: "#111", color: "#fff", minHeight: "100vh" }}>
+        <h1>📊 MILAN ADMIN DASHBOARD</h1>
 
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-          gap: "20px",
-          marginTop: "30px"
-        }}>
+        <h3>Today's Orders: 28</h3>
+        <h3>Reservations: 12</h3>
 
-          {[
-            { name: "VIP Cocktail", price: "GH₵120" },
-            { name: "Blue Mocktail", price: "GH₵80" },
-            { name: "Champagne", price: "GH₵450" }
-          ].map((item, i) => (
-            <div key={i} style={{
-              background: "#111",
-              padding: "20px",
-              borderRadius: "12px",
-              textAlign: "center"
-            }}>
-              <h3>{item.name}</h3>
-              <p style={{ color: "#f5c542" }}>{item.price}</p>
+        <h2 style={{ marginTop: 30 }}>Drinks Menu</h2>
 
-              <button
-                onClick={() => window.open("https://wa.me/233540896361")}
-                style={{
-                  padding: "10px",
-                  background: "#f5c542",
-                  border: "none",
-                  borderRadius: "6px",
-                  cursor: "pointer"
-                }}
-              >
-                Order
-              </button>
-            </div>
-          ))}
+        {drinks.map((d, i) => (
+          <div key={i} style={{ background: "#222", padding: 15, margin: 10 }}>
+            {d.name} - {d.price}
+          </div>
+        ))}
 
-        </div>
-      </section>
+        <button
+          onClick={() => setPage("home")}
+          style={{ marginTop: 20, padding: 10, background: "red", color: "#fff" }}
+        >
+          Logout
+        </button>
+      </div>
+    );
+  }
 
-      {/* FOOTER */}
-      <footer style={{
-        textAlign: "center",
-        padding: "40px",
-        color: "#666"
-      }}>
-        © 2026 MILAN Lounge & Bar
-      </footer>
+  // MAIN WEBSITE
+  return (
+    <div style={{ background: "#000", color: "#fff", minHeight: "100vh", textAlign: "center" }}>
+      
+      <h1 style={{ color: "gold", paddingTop: 50 }}>
+        MILAN LOUNGE & BAR
+      </h1>
+
+      <p>Kumasi - Anloga | 054 089 6361</p>
+
+      <button
+        onClick={() => window.open("https://wa.me/233540896361")}
+        style={{ padding: 10, margin: 10, background: "green", color: "#fff" }}
+      >
+        Book on WhatsApp
+      </button>
+
+      <div style={{ marginTop: 30 }}>
+        {drinks.map((d, i) => (
+          <div key={i} style={{ margin: 10 }}>
+            {d.name} - {d.price}
+          </div>
+        ))}
+      </div>
+
+      <button
+        onClick={() => setPage("admin")}
+        style={{ marginTop: 40, padding: 10, background: "gold" }}
+      >
+        Admin Dashboard
+      </button>
 
     </div>
   );
